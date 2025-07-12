@@ -1,1 +1,29 @@
-<p>ingredientes works!</p>
+<h2>Ingredientes</h2>
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <input type="text" placeholder="Nombre" formControlName="nombre" />
+  <input type="number" placeholder="Precio" formControlName="precio" />
+  <input type="text" placeholder="Unidad" formControlName="unidad" />
+  <button type="submit">{{ idEditando ? 'Actualizar' : 'Agregar' }}</button>
+  <button type="button" *ngIf="idEditando" (click)="cancelarEdicion()">Cancelar</button>
+</form>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Unidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ing of ingredientes">
+      <td>{{ ing.nombre }}</td>
+      <td>{{ ing.precio }}</td>
+      <td>{{ ing.unidad }}</td>
+      <td>
+        <button (click)="editar(ing)">Editar</button>
+        <button (click)="eliminar(ing.id!)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
