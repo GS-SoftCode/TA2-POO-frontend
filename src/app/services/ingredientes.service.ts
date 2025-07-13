@@ -10,6 +10,15 @@ export interface Ingrediente {
   unidad?: string;
 }
 
+export interface IngredienteHistory {
+  id: number;
+  ingredientId: number;
+  action: string;
+  before: any;
+  after: any;
+  fecha: string;
+}
+
 @Injectable({providedIn: 'root'})
 export class IngredientesService {
   private http = inject(HttpClient);
@@ -17,6 +26,14 @@ export class IngredientesService {
 
   getIngredientes(): Observable<Ingrediente[]> {
     return this.http.get<Ingrediente[]>(this.apiUrl);
+  }
+
+  buscarIngredientes(search: string): Observable<Ingrediente[]> {
+    return this.http.get<Ingrediente[]>(`${this.apiUrl}?search=${search}`);
+  }
+
+  getHistorial(): Observable<IngredienteHistory[]> {
+    return this.http.get<IngredienteHistory[]>(`${this.apiUrl}/history`);
   }
 
   addIngrediente(ingrediente: Ingrediente): Observable<Ingrediente> {

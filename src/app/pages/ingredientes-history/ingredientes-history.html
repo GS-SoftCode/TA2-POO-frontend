@@ -1,0 +1,15 @@
+<div>
+  <h3>Historial de Ingredientes</h3>
+  <div *ngFor="let item of historial">
+    <div>
+      <strong>{{ item.action }}</strong> - {{ item.fecha | date:'short' }}
+    </div>
+    <div *ngIf="item.before">
+      Antes: {{ item.before?.nombre }} ({{ item.before?.precio }})
+    </div>
+    <div *ngIf="item.after">
+      Después: {{ item.after?.nombre }} ({{ item.after?.precio }})
+    </div>
+    <hr>
+  </div>
+</div>

@@ -3,17 +3,20 @@ import { CommonModule } from '@angular/common';
 import { IngredientesService, Ingrediente } from '../../services/ingredientes.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IngredientesHistoryComponent } from '../ingredientes-history/ingredientes-history';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-ingredientes',
-  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule, IngredientesHistoryComponent],
   templateUrl: './ingredientes.html'
 })
 export class IngredientesComponent implements OnInit {
   ingredientes: Ingrediente[] = [];
   form: FormGroup;
   idEditando: number | null = null;
+  searchTerm: string = '';
 
   constructor(
     private ingredientesService: IngredientesService,
@@ -34,6 +37,16 @@ export class IngredientesComponent implements OnInit {
     this.ingredientesService.getIngredientes().subscribe(data => {
       this.ingredientes = data;
     });
+  }
+
+  buscarIngredientes() {
+    if (this.searchTerm.trim()) {
+      this.ingredientesService.buscarIngredientes(this.searchTerm).subscribe(data => {
+        this.ingredientes = data;
+      });
+    } else {
+      this.cargarIngredientes();
+    }
   }
 
   guardar() {
